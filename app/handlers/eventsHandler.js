@@ -41,4 +41,38 @@ function createEvent(req, res) {
   });
 }
 
+function updateEvent(req, res) {
+  var eventId = req.body.eventId;
+
+
+  Events
+    .findOne({'_id': eventId})
+    .select()
+    .exec(function(err, event) {
+      if(req['current_user']._id != event.ownerId) {
+        return res.status(400).send(errors.newError(errors.errorsEnum.IsntOwnerEvent, err));
+      }
+
+      if(req.body.title)
+        event.title = req.body.title;
+
+      if(req.body.description)
+        event.description = req.body.description;
+
+      if(req.body.guestList)
+        event.guestList = req.body.guestList;
+
+      Events.update({'_id': eventId}, {$set: event}, function(err, updateEvent) {
+        if (err) return res.status(400).send(errors.newError(errors.errorsEnum.CantUpdateEvent, err));
+
+        res.json({
+          message: "Event updated!",
+          event: event
+        });
+      });
+    })
+
+}
+
 exports.createEvent = createEvent;
+exports.updateEvent = updateEvent;

@@ -39,8 +39,11 @@ var errorsEnum = {
     NoTokenProvided: {code: 1000401, message: "No token provided."},
 
     //Post event
-    CantCreateEvent: {code: 1000500, message: "Can't create new event."}
-    
+    CantCreateEvent: {code: 1000500, message: "Can't create new event."},
+
+    //Put event
+    CantUpdateEvent: {code: 1000600, message: "Can't update event."},
+    IsntOwnerEvent: {code: 1000601, message: "User is not owner of event."}
 };
 
 exports.errorsEnum = errorsEnum;
