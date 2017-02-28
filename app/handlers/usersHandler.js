@@ -154,7 +154,7 @@ function createUser(req, res){
       else
         return res.status(400).json(errors.newError(errors.errorsEnum.CantCreateUser, err));
     }
-    
+
     res.status(201).json({
       message: "User created!",
       user: user.asJson()
@@ -288,7 +288,7 @@ function activateAccount(req, res) {
       return res.status(400).send(errors.newError(errors.errorsEnum.CantActivateAccount, err));
     else if(!user)
       return res.status(400).json(errors.newError(errors.errorsEnum.InvalidToken, {}, ['activation_token']));
-    
+
     res.json({
       message: "Account activated."
     });

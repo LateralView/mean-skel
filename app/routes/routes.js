@@ -29,6 +29,15 @@ function setup(app, handlers) {
 
 // ########## More Routes ##########
 
+// ########## Event Routes ##########
+  var eventsRouter = express.Router();
+  eventsRouter.use(token_authentication);
+
+  eventsRouter.post('/', handlers.events.createEvent);
+
+  app.use('/api/event', eventsRouter);
+
+
 };
 
 exports.setup = setup;
