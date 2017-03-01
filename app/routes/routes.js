@@ -35,6 +35,8 @@ function setup(app, handlers) {
 
   eventsRouter.post('/', handlers.events.createEvent);
   eventsRouter.put('/', handlers.events.updateEvent);
+  eventsRouter.put('/answer', handlers.events.answerEvent);
+  eventsRouter.put('/cancel', handlers.events.cancelEvent);
 
   app.use('/api/event', eventsRouter);
 
