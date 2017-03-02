@@ -34,6 +34,13 @@ angular.module("app.routes", ["ngRoute"])
         authenticate: false
       })
 
+      .when("/event/create", {
+        templateUrl: "app/views/events/create.html",
+        controller: "eventCreateController",
+        controllerAs: "event",
+        authenticate: true
+      })
+
       .otherwise({
           redirectTo: '/home'
       });

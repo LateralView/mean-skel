@@ -1,8 +1,8 @@
 .DS_Store
-node_modules
 uploads
 public/app/app.config.js
 public/bower_components
+node_modules
 apidoc
 artifacts
 coverage
