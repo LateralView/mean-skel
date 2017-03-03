@@ -295,7 +295,19 @@ function activateAccount(req, res) {
   });
 }
 
+function getUsers(req, res) {
+  User
+    .find({ '_id': { $ne: req['current_user']._id } })
+    .select('_id email')
+    .exec(function(err, user) {
+      res.status(201).json({
+        user: user
+      });
+    });
+}
+
 exports.authenticate = authenticate;
 exports.createUser = createUser;
 exports.updateCurrentUser = updateCurrentUser;
 exports.activateAccount = activateAccount;
+exports.getUsers = getUsers;

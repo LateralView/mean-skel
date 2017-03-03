@@ -24,6 +24,7 @@ function setup(app, handlers) {
   // With Token authentication
   userRouter.use(token_authentication);
   userRouter.put("/", handlers.users.updateCurrentUser)
+  userRouter.get("/", handlers.users.getUsers)
 
   app.use("/api/user", userRouter);
 

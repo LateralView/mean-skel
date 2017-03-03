@@ -41,6 +41,13 @@ angular.module("app.routes", ["ngRoute"])
         authenticate: true
       })
 
+      .when("/diary", {
+        templateUrl: "app/views/events/diary.html",
+        controller: "eventDiaryController",
+        controllerAs: "event",
+        authenticate: true
+      })
+
       .otherwise({
           redirectTo: '/home'
       });

@@ -1,34 +1,61 @@
 <div class="page-header">
 	<h1>Create event</h1>
-  {{event.test}}
   <form class="form-horizontal" ng-submit="createEventForm.$valid && event.saveEvent()" name="createEventForm" novalidate>
     <div class="form-group">
   		<label class="col-sm-2 control-label">Title</label>
   		<div class="col-sm-6">
-  			<input type="text" class="form-control" name="title" required>
+  			<input type="text" class="form-control" name="title" ng-model="event.title" required>
   			<div ng-show="createEventForm.$submitted" ng-messages="createEventForm.title.$error" ng-messages-include="/app/views/shared/formMessages.html"></div>
   		</div>
   	</div>
     <div class="form-group">
   		<label class="col-sm-2 control-label">Description</label>
   		<div class="col-sm-6">
-  			<input type="text" class="form-control" name="description" required>
+  			<input type="text" class="form-control" name="description" ng-model="event.description" required>
   			<div ng-show="createEventForm.$submitted" ng-messages="createEventForm.description.$error" ng-messages-include="/app/views/shared/formMessages.html"></div>
   		</div>
   	</div>
     <div class="form-group">
   		<label class="col-sm-2 control-label">Date</label>
   		<div class="col-sm-6">
-        <div class="dropdown">
-  <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
-    <div class="input-group"><input type="text" class="form-control" data-ng-model="data.dateDropDownInput"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+        <div uib-dropdown>
+            <div uib-dropdown-toggle class="input-group" ng-click="event.calendar()">
+                <input type="text" class="form-control" data-ng-model="event.selectedDateTransform" />
+                <span class="input-group-btn">
+                   <button type="button" class="btn btn-default" uib-tooltip="Open Calendar">
+                       <i class="glyphicon glyphicon-calendar"></i>
+                       <span class="sr-only">Calendar</span>
+                </button>
+                </span>
+            </div>
+            <div uib-dropdown-menu role="menu" ng-style="event.showCalendar ? { 'display':'block' } : { 'display': 'none' }">
+              <datetimepicker
+                data-ng-model="event.selectedDate"
+                data-datetimepicker-config="event.config"
+                data-on-set-time="event.pickValue(newDate, oldDate)">
+              </datetimepicker>
+            </div>
+        </div>
+        <div ng-show="createEventForm.$submitted" ng-messages="createEventForm.description.$error" ng-messages-include="/app/views/shared/formMessages.html"></div>
+  		</div>
+  	</div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Multiple</label>
+      <div class="col-sm-6">
+        <ui-select multiple ng-model="event.usersSelected" title="Choose a person">
+          <ui-select-match placeholder="Select or search a person in the list...">
+              <span ng-bind="$item.email"></span>
+          </ui-select-match>
+
+            <ui-select-choices repeat="item in (event.itemArray | filter: event.search)">
+              <span ng-bind="item.email"></span>
+            </ui-select-choices>
+        </ui-select>
+      </div>
     </div>
-  </a>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-    <datetimepicker data-ng-model="data.dateDropDownInput" data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }"/>
-  </ul>
-</div>
-  			<div ng-show="createEventForm.$submitted" ng-messages="createEventForm.description.$error" ng-messages-include="/app/views/shared/formMessages.html"></div>
+    <div class="form-group">
+  		<div class="col-sm-offset-2 col-sm-6">
+  			<button type="submit" class="btn btn-success btn-lg btn-block" ng-disabled="event.processing">Save</button>
   		</div>
   	</div>
   </form>

@@ -17,5 +17,10 @@ angular.module("services")
 			return $http.post(config.api_url + "/users/activate/", userData);
 		};
 
+		// create a user
+		userFactory.getUsers = function() {
+			return $http.get(config.api_url + "/user/");
+		};
+
 		return userFactory;
 	}]);
