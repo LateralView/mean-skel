@@ -1,6 +1,7 @@
 var factory = require('factory-girl'),
 	MongooseAdapter = require('factory-girl-mongoose').MongooseAdapter,
 	User = require('../app/models/user'),
+	Events = require('../app/models/event'),
 	_ = require('lodash'),
 	nock = require('nock'),
 	faker = require('faker');
@@ -16,13 +17,13 @@ var register = function() {
 			firstname: faker.name.firstName() || buildOptions.firstname,
 			lastname: faker.name.lastName() || buildOptions.lastname
 		};
-		
+
 		if(!buildOptions.disableNock){
 			//nock mail
 			nock('https://api.sendgrid.com:443')
 				.post(/.*send*./)
 				.reply(200, {"message": "success"});
-			
+
 			//nock s3
 			nock('https://mean-skel.s3.amazonaws.com:443')
 				.put(/.*picture*./)
@@ -34,9 +35,24 @@ var register = function() {
 					server: 'AmazonS3',
 					connection: 'close' });
 		}
-		
+
 		return attr;
 	}, {
+		afterCreate: function(instance, attrs, callback){
+			nock.cleanAll();
+			callback(null, instance);
+		}
+	});
+
+  factory.define('event', Events, function(buildOptions){
+    var attr = {
+      title: faker.lorem.words() || buildOptions.title,
+      description: faker.lorem.paragraph() || buildOptions.description,
+      dateEvent: faker.date.future() || buildOptions.dateEvent
+    };
+
+    return attr;
+  }, {
 		afterCreate: function(instance, attrs, callback){
 			nock.cleanAll();
 			callback(null, instance);

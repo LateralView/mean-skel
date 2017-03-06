@@ -34,10 +34,10 @@ function setup(app, handlers) {
   var eventsRouter = express.Router();
   eventsRouter.use(token_authentication);
 
-  eventsRouter.post('/', handlers.events.createEvent);
-  eventsRouter.put('/', handlers.events.updateEvent);
-  eventsRouter.put('/answer', handlers.events.answerEvent);
-  eventsRouter.put('/cancel', handlers.events.cancelEvent);
+  eventsRouter.post('/', handlers.events.createEvent.bind(handlers.events));
+  eventsRouter.put('/', handlers.events.updateEvent.bind(handlers.events));
+  // eventsRouter.put('/answer', handlers.events.answerEvent);
+  // eventsRouter.put('/cancel', handlers.events.cancelEvent);
 
   app.use('/api/event', eventsRouter);
 

@@ -52,5 +52,6 @@
     "mongodb-uri": "^0.9.7",
     "nock": "^7.0.2",
     "supertest": "^1.1.0"
-  }
+  },
+  "engines" : { "node" : ">=6.9.1" }
 }

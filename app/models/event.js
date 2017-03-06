@@ -8,7 +8,7 @@ var EventSchema = new Schema({
   dateEvent: { type: Date, required: "Date event is required."},
   guestList:   [{
                   userId: { type: Schema.Types.ObjectId, required:"Guest list is required" },
-                  status: { type: String, required:"Owner is required", default: 'pending' }
+                  status: { type: String, default: 'pending' }
                 }],
   ownerId: { type: String, required:"Owner is required" },
   active: { type: Boolean, default: true },
