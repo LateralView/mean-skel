@@ -46,7 +46,10 @@ var errorsEnum = {
     CantFindEvent: {code: 1000601, message: "Can't find event."},
     IsntOwnerEvent: {code: 1000602, message: "User is not owner of event."},
     AlreadyAnsweredEvent: {code: 1000603, message: "The event already answered."},
-    EventAlreadyCanceled: {code: 1000604, message: "The event already canceled."}
+    EventAlreadyCanceled: {code: 1000604, message: "The event already canceled."},
+
+    //Get event
+    CantGetEvent: {code: 1000700, message: "Can't get event."}
 };
 
 exports.errorsEnum = errorsEnum;

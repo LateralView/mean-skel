@@ -1,6 +1,7 @@
 var express = require("express");
 var token_authentication = require("../middleware/auth");
 
+
 function setup(app, handlers) {
 
 // ########## Authentication Route ##########
@@ -36,8 +37,11 @@ function setup(app, handlers) {
 
   eventsRouter.post('/', handlers.events.createEvent.bind(handlers.events));
   eventsRouter.put('/', handlers.events.updateEvent.bind(handlers.events));
-  // eventsRouter.put('/answer', handlers.events.answerEvent);
-  // eventsRouter.put('/cancel', handlers.events.cancelEvent);
+  eventsRouter.put('/answer', handlers.events.answerEvent.bind(handlers.events));
+  eventsRouter.put('/cancel', handlers.events.cancelEvent.bind(handlers.events));
+  eventsRouter.get('/', handlers.events.getEvents.bind(handlers.events));
+  eventsRouter.get('/pending', handlers.events.getEventsPending.bind(handlers.events));
+  eventsRouter.get('/my/events', handlers.events.getMyEvents.bind(handlers.events));
 
   app.use('/api/event', eventsRouter);
 

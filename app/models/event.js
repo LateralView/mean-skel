@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-var User = require("./user");
+var moment = require('moment');
 
 var EventSchema = new Schema({
   title: { type: String, trim: true, required: "Title is required."},
@@ -10,9 +10,9 @@ var EventSchema = new Schema({
                   userId: { type: Schema.Types.ObjectId, required:"Guest list is required" },
                   status: { type: String, default: 'pending' }
                 }],
-  ownerId: { type: String, required:"Owner is required" },
+  ownerId: { type: Schema.Types.ObjectId, required:"Owner is required" },
   active: { type: Boolean, default: true },
-  created_at: { type: Date, default: Date.now }
+  created_at: { type: Date, default: moment().utcOffset(0).format('YYYY-MM-DD HH:mm:ss.SSS') }
 });
 
 EventSchema.methods.asJson = function() {

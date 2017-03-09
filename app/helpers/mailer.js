@@ -28,14 +28,12 @@ function sendActivationEmail(user, done) {
 
 function sendEventInvitation(user, done) {
   try {
-    // var link = config.base_url + "/activate/" + user.activation_token;
-
     var email     = new sendgrid.Email({
       to:       user.email,
       from:     'no-reply@meanskel.com',
       fromname: 'MEAN skel',
       subject:  'Confirm event!',
-      html:     "<h1>k onda</h1><p>Welcome! " + user.email + "</p><p>Please follow this link to activate your account</p><p></p>"
+      html:     "<p>An user invited to a new event. Please check your events</p><p></p>"
     });
 
     sendgrid.send(email, function(err, json) {
@@ -52,7 +50,7 @@ function sendEventInvitation(user, done) {
 
 function answerEventInvitation(user, done) {
   try {
-    var answer = user.answer ? 'acepto' : 'rechazo';
+    var answer = user.answer == 'accept' ? 'acepto' : 'rechazo';
 
     var email     = new sendgrid.Email({
       to:       user.email,

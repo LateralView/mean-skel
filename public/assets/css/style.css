@@ -39,3 +39,14 @@ header .navbar {
 
 .packed-drop-zone { border: dotted 3px lightgray; }
 .nv-file-over { border: dotted 3px red; }
+
+
+.event-container { background-color: #ccc;; box-sizing:border-box; cursor: pointer; padding-bottom: 10px; }
+.event { padding: 10px; border-radius: 5px; min-height: 70px; }
+.event-head { min-height: 45px; }
+.event-title { display: block; float: left; }
+.event-title h3 {  margin: 0px !important; }
+.event-date { display: block; float: right; }
+.event-date .date { margin: 0px !important; }
+.event-date .owner { margin: 0px !important; }
+.event-description { width: 100%; padding: 10px; }

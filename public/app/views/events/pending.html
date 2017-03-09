@@ -1,6 +1,6 @@
 <div class="page-header">
-	<h1>Diary</h1>
-	<div class="row" ng-repeat="ev in event.myDiary | orderBy:'dateEvent'" style="padding-top: 15px;" ng-click="event.showText(ev)">
+	<h1>Pendings</h1>
+	<div class="row" ng-repeat="ev in event.pendings | orderBy:'dateEvent'" style="padding-top: 15px;" ng-click="event.showText(ev)">
     <div class="event-container">
       <div class="event">
         <div class="event-head">
@@ -10,6 +10,10 @@
           <div class="event-date">
             <p class="date">{{ev.dateEvent | date:'yyyy-MM-dd HH:mm'}}</p>
             <p class="owner">{{ev.owner[0].email}}</p>
+            <div style="padding-bottom: 10px;">
+              <button class="btn btn-primary" ng-click="event.accept(ev)">accept</button>
+              <button class="btn btn-danger" style="float: right;" ng-click="event.reject(ev)">reject</button>
+            </div>
           </div>
         </div>
         <div class="event-description">
