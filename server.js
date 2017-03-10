@@ -48,8 +48,14 @@ app.use(attachments.remove);
 app.use(express.static(path.join(__dirname, "/public")));
 
 // Request Handlers
+var EventsHandler = require('./app/handlers/eventsHandler');
+var events = require('./app/models/event');
+var Users = require("./app/models/user");
+var mailer = require("./app/helpers/mailer");
+
 var handlers = {
-  users: require('./app/handlers/usersHandler')
+  users: require('./app/handlers/usersHandler'),
+  events: new EventsHandler(events, mailer, Users)
 };
 
 // Application routes

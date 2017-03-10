@@ -5,7 +5,7 @@ angular.module("controllers")
 
     vm.doLogin = function() {
       vm.processing = true;
-
+      
       Auth.login(vm.loginData.email, vm.loginData.password).then(function(response){
           vm.processing = false;
 					flash.setMessage("Welcome back, " + vm.loginData.email + "!");

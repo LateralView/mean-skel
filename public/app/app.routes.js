@@ -34,6 +34,41 @@ angular.module("app.routes", ["ngRoute"])
         authenticate: false
       })
 
+      .when("/event/create", {
+        templateUrl: "app/views/events/create.html",
+        controller: "eventCreateController",
+        controllerAs: "event",
+        authenticate: true
+      })
+
+      .when("/diary", {
+        templateUrl: "app/views/events/diary.html",
+        controller: "eventDiaryController",
+        controllerAs: "event",
+        authenticate: true
+      })
+
+      .when("/pending", {
+        templateUrl: "app/views/events/pending.html",
+        controller: "eventPendingController",
+        controllerAs: "event",
+        authenticate: true
+      })
+
+      .when("/my/events", {
+        templateUrl: "app/views/events/myEvents.html",
+        controller: "eventMyEventsController",
+        controllerAs: "event",
+        authenticate: true
+      })
+
+      .when("/event/edit/:eventId", {
+        templateUrl: "app/views/events/edit.html",
+        controller: "eventEditController",
+        controllerAs: "event",
+        authenticate: true
+      })
+
       .otherwise({
           redirectTo: '/home'
       });

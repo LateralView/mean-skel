@@ -6,10 +6,12 @@
 
   <!-- Set the base path for angular routing -->
   <base href="/">
+  <script type="text/javascript" src="bower_components/moment/moment.js"></script>
 
   <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
   <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css">
+  <link rel="stylesheet" type="text/css" href="bower_components/angular-ui-select/dist/select.css">
 
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
@@ -20,6 +22,8 @@
   <script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
   <script type="text/javascript" src="bower_components/angular-messages/angular-messages.min.js"></script>
 
+  <script type="text/javascript" src="bower_components/angular-ui-select/dist/select.js"></script>
+
   <script type="text/javascript" src="assets/js/ui-bootstrap-custom-tpls-0.13.0.min.js"></script>
 
   <!-- main Angular app file -->
@@ -28,10 +32,12 @@
   <!-- controllers -->
   <script type="text/javascript" src="app/controllers/mainCtrl.js"></script>
   <script type="text/javascript" src="app/controllers/userCtrl.js"></script>
+  <script type="text/javascript" src="app/controllers/eventCtrl.js"></script>
 
   <!-- services -->
   <script type="text/javascript" src="app/services/authService.js"></script>
   <script type="text/javascript" src="app/services/userService.js"></script>
+  <script type="text/javascript" src="app/services/eventService.js"></script>
   <script type="text/javascript" src="app/services/flashService.js"></script>
 
   <!-- directives -->
@@ -43,6 +49,10 @@
 
   <!-- config -->
   <script type="text/javascript" src="app/app.config.js"></script>
+
+  <link rel="stylesheet" href="assets/css/datetimepicker.css">
+  <script type="text/javascript" src="assets/js/datetimepicker.js"></script>
+  <script type="text/javascript" src="assets/js/datetimepicker.templates.js"></script>
 
 </head>
 <body ng-app="skelApp" ng-controller="mainController as main">

@@ -109,7 +109,7 @@ describe('User', function () {
         done();
       });
     });
-
+    
     it('is invalid with a password length less than 8 characters', function (done) {
       factory.create("user", {password: "1234567"}, function (error, user) {
         expect(error).to.exist;
@@ -127,7 +127,7 @@ describe('User', function () {
         done();
       });
     });
-    
+
     it('is invalid if cant hash password', function(done){
       var stub = sinon.stub(bcrypt, 'hash').yields(new Error('Oops'));
       factory.create("user", function(err, user){
@@ -136,7 +136,7 @@ describe('User', function () {
         done();
       });
     });
-  
+
     it('is invalid if has error at upload file', function(done){
       var stub = sinon.stub(s3Manager, 'uploadFile').yields(new Error('Oops'));
       factory.create("user", { picture: { original_file: { mimetype: "image/jpeg" } } }, function(err, user){

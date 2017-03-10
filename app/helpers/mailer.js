@@ -1,4 +1,5 @@
 var config = require('../../config').config();
+
 var sendgrid = require('sendgrid')(config.sendgrid.API_KEY);
 
 function sendActivationEmail(user, done) {
@@ -25,5 +26,76 @@ function sendActivationEmail(user, done) {
 	}
 }
 
-exports.sendActivationEmail = sendActivationEmail;
+function sendEventInvitation(user, done) {
+  try {
+    var email     = new sendgrid.Email({
+      to:       user.email,
+      from:     'no-reply@meanskel.com',
+      fromname: 'MEAN skel',
+      subject:  'Confirm event!',
+      html:     "<p>An user invited to a new event. Please check your events</p><p></p>"
+    });
 
+    sendgrid.send(email, function(err, json) {
+      if (err)
+        done(err);
+      else
+        done(null);
+    });
+  }
+  catch(err) {
+      done(err);
+  }
+}
+
+function answerEventInvitation(user, done) {
+  try {
+    var answer = user.answer == 'accept' ? 'acepto' : 'rechazo';
+
+    var email     = new sendgrid.Email({
+      to:       user.email,
+      from:     'no-reply@meanskel.com',
+      fromname: 'MEAN skel',
+      subject:  'Confirm event!',
+      html: 'El usuario <b>'+user.userEmail+'</b> '+answer+' su invitacion'
+    });
+
+    sendgrid.send(email, function(err, json) {
+      if (err)
+        done(err);
+      else
+        done(null);
+    });
+  }
+  catch(err) {
+      done(err);
+  }
+}
+
+function cancelEvent(event, user, done) {
+  try {
+
+    var email     = new sendgrid.Email({
+      to:       user.email,
+      from:     'no-reply@meanskel.com',
+      fromname: 'MEAN skel',
+      subject:  'Cancel event!',
+      html: 'El evento "'+event.title+'" fue cancelado.'
+    });
+
+    sendgrid.send(email, function(err, json) {
+      if (err)
+        done(err);
+      else
+        done(null);
+    });
+  }
+  catch(err) {
+      done(err);
+  }
+}
+
+exports.sendActivationEmail = sendActivationEmail;
+exports.sendEventInvitation = sendEventInvitation;
+exports.answerEventInvitation = answerEventInvitation;
+exports.cancelEvent = cancelEvent;

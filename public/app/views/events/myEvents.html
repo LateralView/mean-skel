@@ -1,0 +1,24 @@
+<div class="page-header">
+	<h1>My events</h1>
+	<div class="row" ng-repeat="ev in event.myEvents | orderBy:'dateEvent'" style="padding-top: 15px;" ng-click="event.showText(ev)">
+    <div class="event-container">
+      <div class="event">
+        <div class="event-head">
+          <div class="event-title">
+            <h3>{{ev.title}}</h3>
+          </div>
+          <div class="event-date">
+            <p class="date">{{ev.dateEvent | date:'yyyy-MM-dd HH:mm'}}</p>
+            <div style="padding-bottom: 10px;">
+              <button class="btn btn-primary" ng-click="event.editEvent(ev)">Edit</button>
+              <button class="btn btn-danger" style="margin-left: 15px; float: right;" ng-click="event.cancelEvent(ev)">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <div class="event-description">
+          <p ng-style="ev.isCollapsed ? { 'display':'block' } : { 'display': 'none' }">{{ev.description}}</p>
+        </div>
+      </div>
+    </div>
+	</div>
+</div>
