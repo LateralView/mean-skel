@@ -12,6 +12,8 @@ const attachments = require("./app/middleware/attachments");
 
 // ---- APP CONFIGURATION ----
 
+
+
 // log all requests to the console
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan("dev"));
