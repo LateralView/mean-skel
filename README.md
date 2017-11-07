@@ -25,7 +25,7 @@ $ npm install
 
 ### Configuration
 
-Before running the app, set the database host, base URL, Sendgrid API key and S3 keys in the **env.json** file.
+Before running the app, set the database host, base URL, Sendgrid API key and S3 keys in a `.env` file, so they are accesible by environment variables.
 If S3 keys and/or bucket name are not set no errors will be thrown, but the files will not upload at all (for example in profile picture upload).
 Also, don't forget to run the mongoDB server.
 
