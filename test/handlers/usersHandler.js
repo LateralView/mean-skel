@@ -3,7 +3,6 @@ const factory = require('factory-girl');
 const User = require('../../app/models/user');
 const nock = require('nock');
 const expect = require('chai').expect;
-// const asyncLib = require('async');
 const sinon = require('sinon');
 
 describe('UsersHandler', () => {
