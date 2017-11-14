@@ -464,6 +464,7 @@ describe('UsersHandler', () => {
             expect(response.body.user.lastname).to.equal(user.lastname);
             expect(response.body.user._id).to.equal(String(user._id));
             User.findOne({_id: user._id}, "+password", (err, user) => {
+              console.log('=================>>> ', user)
               expect(err).to.not.exist;
               expect(user.comparePassword(password+'test')).to.equal(true)
               done();

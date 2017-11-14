@@ -8,6 +8,9 @@
     "cover": "NODE_ENV=test istanbul cover _mocha",
     "postinstall": "apidoc -e \"(node_modules|public)\" -o public/apidoc"
   },
+  "engines": {
+    "node": ">=8.2.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/LateralView/mean-skel.git"
