@@ -429,7 +429,7 @@ describe('UsersHandler', () => {
 
     it('responds with success on change password', () => {
       factory.create('user', { password: password }, (err, user) => {
-        User.activateAccount(user.activation_token).then(() => {
+        User.activateAccount(user.activation_token, () => {
           request(server)
             .post('/api/users/authenticate')
             .send({ email: user.email, password: password })
