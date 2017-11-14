@@ -1,11 +1,8 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt-nodejs");
 const shortid = require('shortid');
 const mailer = require("../helpers/mailer");
 const s3Manager = require("../helpers/s3Manager");
-const fs = require("fs");
-
 
 class User extends mongoose.Schema {
   constructor() {
@@ -94,7 +91,7 @@ class User extends mongoose.Schema {
     // Send welcome email with activation link
     this.post("save", function(user) {
       if (user.wasNew) {
-        mailer.sendActivationEmail(user, function(error){
+        mailer.sendActivationEmail(user, function () {
           // TODO: Handle error if exists
         });
       }

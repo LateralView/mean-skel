@@ -178,7 +178,7 @@ describe('UsersHandler', () => {
     });
 
     it('responds with success if the user was created', (done) => {
-      let user = factory.build("user", (error, user) => {
+      factory.build("user", (error, user) => {
         request(server)
           .post('/api/users')
           .send({ email: user.email, password: user.password, firstname: user.firstname, lastname: user.lastname })
@@ -197,7 +197,6 @@ describe('UsersHandler', () => {
   });
 
   describe('POST /api/users/activate', () => {
-    let validUser = null;
     let password = "testpassword";
     let server;
 
@@ -205,13 +204,11 @@ describe('UsersHandler', () => {
       server = require('../../server');
 
       // Create valid user
-      factory.create("user", {password: password, active: true}, (error, user) => {
-        if (!error)
-          validUser = user;
-        else
-          throw error;
-
-        done();
+      factory.create("user", {password: password, active: true}, error => {
+        if (error) {
+          throw error
+        }
+        done()
       });
     });
 

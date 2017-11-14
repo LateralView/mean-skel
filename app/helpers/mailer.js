@@ -18,7 +18,7 @@ class MailerHelper {
           </p>`
       });
 
-      sendgrid.send(email, (err, json) => {
+      sendgrid.send(email, (err) => {
         if (err)
           done(err);
         else

@@ -32,7 +32,7 @@ class AuthMiddleware {
   }
 }
 
-authMiddleware = new AuthMiddleware();
+const authMiddleware = new AuthMiddleware();
 module.exports = authMiddleware.middleware;
 
 // middleware to authenticate routes

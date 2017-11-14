@@ -25,7 +25,7 @@ class S3ManagerHelper {
       try {
         let s3obj = new this.aws.S3({params: {Bucket: process.env.AWS_S3_BUCKET_NAME, Key: filePath}});
         s3obj.upload({Body: body, ContentType: file.mimetype}).
-          send((err, data) => {
+          send((err) => {
             if (err)
             next(err);
           else
@@ -45,7 +45,7 @@ class S3ManagerHelper {
         Key: key
       };
 
-      s3.deleteObject(params, (err, data) => {
+      s3.deleteObject(params, (err) => {
         next(err);
       });
     } catch (err) {
