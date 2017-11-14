@@ -31,7 +31,7 @@ before((done) => {
   }
 
   // Connect to mongo and clean test database
-  mongoose.connect(mongooseUri, { useMongoClient: true }, () => {
+  mongoose.connect(mongooseUri, () => {
     // Clean DB and regenerate indexes
     cleanDB();
   });
