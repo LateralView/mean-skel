@@ -3,6 +3,7 @@ const factory = require('factory-girl');
 const User = require('../../app/models/user');
 const nock = require('nock');
 const expect = require('chai').expect;
+// const asyncLib = require('async');
 const sinon = require('sinon');
 
 describe('UsersHandler', () => {
@@ -427,27 +428,32 @@ describe('UsersHandler', () => {
     });
 
     it('responds with success on change password', () => {
-      factory.create('user', { password: password }, async (err, user) => {
-        await User.activateAccount(user.activation_token)
-        const res = await request(server)
-          .post('/api/users/authenticate')
-          .send({ email: user.email, password: password })
-        expect(res.body.token).to.exist
-
-        const res2 = await request(server)
-          .put('/api/user')
-          .set('x-access-token', res.body.token)
-          .send({ password: password, new_password: password+'test' })
-        expect(res2.status).to.eq(200)
-        expect(res2.body.user).to.exist;
-        expect(res2.body.user.email).to.equal(user.email);
-        expect(res2.body.user.firstname).to.equal(user.firstname);
-        expect(res2.body.user.lastname).to.equal(user.lastname);
-        expect(res2.body.user._id).to.equal(String(user._id));
-        const updatedUser = await User.findOne({_id: user._id}, "+password")
-        expect(updatedUser.comparePassword(password+'test')).to.equal(true)
+      factory.create('user', { password: password }, (err, user) => {
+        User.activateAccount(user.activation_token).then(() => {
+          request(server)
+            .post('/api/users/authenticate')
+            .send({ email: user.email, password: password })
+            .end((err, res) => {
+              expect(res.body.token).to.exist
+              request(server)
+                .put('/api/user')
+                .set('x-access-token', res.body.token)
+                .send({ password: password, new_password: password+'test' })
+                .end((err, res) => {
+                  expect(res.status).to.eq(200)
+                  expect(res.body.user).to.exist;
+                  expect(res.body.user.email).to.equal(user.email);
+                  expect(res.body.user.firstname).to.equal(user.firstname);
+                  expect(res.body.user.lastname).to.equal(user.lastname);
+                  expect(res.body.user._id).to.equal(String(user._id));
+                  User.findOne({_id: user._id}, "+password").then(updatedUser => {
+                    expect(updatedUser.comparePassword(password+'test')).to.equal(true)
+                  })
+                })
+            })
+        })
       })
-    });
+    })
 
     it('uploads an avatar to user', (done) => {
       // Mock s3 response
