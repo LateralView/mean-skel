@@ -463,11 +463,12 @@ describe('UsersHandler', () => {
             expect(response.body.user.firstname).to.equal(user.firstname);
             expect(response.body.user.lastname).to.equal(user.lastname);
             expect(response.body.user._id).to.equal(String(user._id));
-            User.findOne({_id: user._id}, "+password", (err, user) => {
-              expect(err).to.not.exist;
+
+            User.findOne({_id: user._id}, "+password")
+            .then(user => {
               expect(user.comparePassword(password+'test')).to.equal(true)
-              done();
-            });
+              done()
+            })
           })
       })
 
