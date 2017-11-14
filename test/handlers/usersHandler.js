@@ -3,7 +3,7 @@ const factory = require('factory-girl');
 const User = require('../../app/models/user');
 const nock = require('nock');
 const expect = require('chai').expect;
-const async = require('async');
+const asyncLib = require('async');
 const sinon = require('sinon');
 
 describe('UsersHandler', () => {
@@ -428,7 +428,7 @@ describe('UsersHandler', () => {
     });
 
     it('responds with success on change password', (done) => {
-      async.waterfall([
+      asyncLib.waterfall([
           (cb) => {
             factory.create('user', {password: password}, (err, user) => {
               cb(err, user);
@@ -464,7 +464,6 @@ describe('UsersHandler', () => {
             expect(response.body.user.lastname).to.equal(user.lastname);
             expect(response.body.user._id).to.equal(String(user._id));
             User.findOne({_id: user._id}, "+password", (err, user) => {
-              console.log('=================>>> ', user)
               expect(err).to.not.exist;
               expect(user.comparePassword(password+'test')).to.equal(true)
               done();
