@@ -3,7 +3,7 @@ const factory = require('factory-girl');
 const User = require('../../app/models/user');
 const nock = require('nock');
 const expect = require('chai').expect;
-const asyncLib = require('async');
+const async = require('async');
 const sinon = require('sinon');
 
 describe('UsersHandler', () => {
@@ -178,7 +178,7 @@ describe('UsersHandler', () => {
     });
 
     it('responds with success if the user was created', (done) => {
-      factory.build("user", (error, user) => {
+      let user = factory.build("user", (error, user) => {
         request(server)
           .post('/api/users')
           .send({ email: user.email, password: user.password, firstname: user.firstname, lastname: user.lastname })
@@ -197,6 +197,7 @@ describe('UsersHandler', () => {
   });
 
   describe('POST /api/users/activate', () => {
+    let validUser = null;
     let password = "testpassword";
     let server;
 
@@ -204,11 +205,13 @@ describe('UsersHandler', () => {
       server = require('../../server');
 
       // Create valid user
-      factory.create("user", {password: password, active: true}, error => {
-        if (error) {
-          throw error
-        }
-        done()
+      factory.create("user", {password: password, active: true}, (error, user) => {
+        if (!error)
+          validUser = user;
+        else
+          throw error;
+
+        done();
       });
     });
 
@@ -428,7 +431,7 @@ describe('UsersHandler', () => {
     });
 
     it('responds with success on change password', (done) => {
-      asyncLib.waterfall([
+      async.waterfall([
           (cb) => {
             factory.create('user', {password: password}, (err, user) => {
               cb(err, user);
@@ -463,12 +466,11 @@ describe('UsersHandler', () => {
             expect(response.body.user.firstname).to.equal(user.firstname);
             expect(response.body.user.lastname).to.equal(user.lastname);
             expect(response.body.user._id).to.equal(String(user._id));
-
-            User.findOne({_id: user._id}, "+password")
-            .then(user => {
+            User.findOne({_id: user._id}, "+password", (err, user) => {
+              expect(err).to.not.exist;
               expect(user.comparePassword(password+'test')).to.equal(true)
-              done()
-            })
+              done();
+            });
           })
       })
 
