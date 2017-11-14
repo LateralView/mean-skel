@@ -1,3 +1,4 @@
+require('dotenv').config({ path: `${__dirname}/../.env.test` })
 const mongoose = require('mongoose');
 const uriUtil = require('mongodb-uri');
 const async = require("async");
