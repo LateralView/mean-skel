@@ -50,17 +50,17 @@ describe('s3Manager Helper', () => {
 	    });
 
 	    it('returns error if file does not exist', (done) => {
-			let file = {
-				name: "avatar.png",
-				path: "./invalid/path/image.png",
-				mimetype: "image/png"
-			};
+        let file = {
+          name: "avatar.png",
+          path: "./invalid/path/image.png",
+          mimetype: "image/png"
+        };
 
-			s3Manager.uploadFile(file, "picture/" + validUser._id, (err, path) => {
-				expect(err).to.exist;
-				expect(err.code).to.equal("ENOENT");
-			    done();
-			});
+        s3Manager.uploadFile(file, "picture/" + validUser._id, err => {
+          expect(err).to.exist;
+          expect(err.code).to.equal("ENOENT");
+            done();
+        });
 	    });
 
 	    it('returns error if response is an error', (done) => {
@@ -80,7 +80,7 @@ describe('s3Manager Helper', () => {
 				mimetype: "image/png"
 			};
 
-			s3Manager.uploadFile(file, "picture/" + validUser._id, (err, path) => {
+			s3Manager.uploadFile(file, "picture/" + validUser._id, err => {
 				nock.cleanAll();
 				expect(err).to.exist;
 				expect(err.message).to.equal('The AWS Access Key Id you provided does not exist in our records.');
@@ -89,21 +89,21 @@ describe('s3Manager Helper', () => {
 	    });
 
     	it('returns error if the request fails', (done) => {
-			nock(`https://${process.env.AWS_S3_BUCKET_NAME}.s3.amazonaws.com:443`)
-			  .put(/.*picture*./)
-			  .replyWithError('Some error');
+        nock(`https://${process.env.AWS_S3_BUCKET_NAME}.s3.amazonaws.com:443`)
+          .put(/.*picture*./)
+          .replyWithError('Some error');
 
-			let file = {
-				name: "avatar.png",
-				path: "./test/fixtures/avatar.png",
-				mimetype: "image/png"
-			};
+        let file = {
+          name: "avatar.png",
+          path: "./test/fixtures/avatar.png",
+          mimetype: "image/png"
+        };
 
-			s3Manager.uploadFile(file, "picture/" + validUser._id, (err, path) => {
-				nock.cleanAll();
-				expect(err).to.exist;
-				done();
-			});
+        s3Manager.uploadFile(file, "picture/" + validUser._id, err => {
+          nock.cleanAll();
+          expect(err).to.exist;
+          done();
+        });
 	    });
 
         it('returns error if aws sdk throw error', (done) => {
@@ -125,7 +125,7 @@ describe('s3Manager Helper', () => {
               }
             });
 
-            s3Manager.uploadFile(file, "picture/" + validUser._id, (err, path) => {
+            s3Manager.uploadFile(file, "picture/" + validUser._id, err => {
                 nock.cleanAll();
                 stub.restore();
                 expect(err).to.exist;
@@ -187,12 +187,6 @@ describe('s3Manager Helper', () => {
                 .put(/.*picture*./)
                 .replyWithError('Some error');
 
-            let file = {
-                name: "avatar.png",
-                path: "./test/fixtures/avatar.png",
-                mimetype: "image/png"
-            };
-
             let stub = sinon.stub(aws, 'S3', () => {
                 return {
                     deleteObject: () => {
@@ -201,7 +195,7 @@ describe('s3Manager Helper', () => {
                 }
             });
 
-            s3Manager.deleteFile("picture/56b0f1d8a60d504834ffe605/avatar.png", (err, path) => {
+            s3Manager.deleteFile("picture/56b0f1d8a60d504834ffe605/avatar.png", err => {
                 nock.cleanAll();
                 stub.restore();
                 expect(err).to.exist;

@@ -12,14 +12,14 @@ before((done) => {
     // Remove all database documents and indexes
     async.each(mongoose.connection.collections, (collection, callback) => {
       collection.dropIndexes(callback);
-    }, (err) => {
+    }, () => {
       async.each(mongoose.connection.models, (model, callback) => {
         // Re-generate indexes
         model.ensureIndexes(callback);
-      }, (err) => {
+      }, () => {
         async.each(mongoose.connection.collections, (collection, callback) => {
           collection.remove(callback);
-        }, (err) => {
+        }, () => {
           // Register factories
           factories.register();
           // Run tests
@@ -30,7 +30,7 @@ before((done) => {
   }
 
   // Connect to mongo and clean test database
-  mongoose.connect(mongooseUri, (result) => {
+  mongoose.connect(mongooseUri, { useMongoClient: true }, () => {
     // Clean DB and regenerate indexes
     cleanDB();
   });
