@@ -3,7 +3,6 @@ const factory = require('factory-girl');
 const User = require('../../app/models/user');
 const nock = require('nock');
 const expect = require('chai').expect;
-const asyncLib = require('async');
 const sinon = require('sinon');
 
 describe('UsersHandler', () => {
@@ -427,51 +426,27 @@ describe('UsersHandler', () => {
         })
     });
 
-    it('responds with success on change password', (done) => {
-      asyncLib.waterfall([
-          (cb) => {
-            factory.create('user', {password: password}, (err, user) => {
-              cb(err, user);
-            });
-          },
-          (user, cb) => {
-            User.activateAccount(user.activation_token, (err) => {
-              cb(err, user);
-            });
-          },
-          (user, cb) => {
-            request(server)
-              .post('/api/users/authenticate')
-              .send({ email: user.email, password: password })
-              .end((err, res) => {
-                cb(err, user, res.body.token);
-              });
-          }
-      ], (err, user, token) => {
-        expect(err).to.not.exist;
-        expect(token).to.exist;
-        request(server)
+    it('responds with success on change password', () => {
+      factory.create('user', { password: password }, async (err, user) => {
+        await User.activateAccount(user.activation_token)
+        const res = await request(server)
+          .post('/api/users/authenticate')
+          .send({ email: user.email, password: password })
+        expect(res.body.token).to.exist
+
+        const res2 = await request(server)
           .put('/api/user')
-          .set('x-access-token', token)
+          .set('x-access-token', res.body.token)
           .send({ password: password, new_password: password+'test' })
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .end((err, response) => {
-            expect(response.body.errors).to.not.exist;
-            expect(response.body.user).to.exist;
-            expect(response.body.user.email).to.equal(user.email);
-            expect(response.body.user.firstname).to.equal(user.firstname);
-            expect(response.body.user.lastname).to.equal(user.lastname);
-            expect(response.body.user._id).to.equal(String(user._id));
-
-            User.findOne({_id: user._id}, "+password")
-            .then(user => {
-              expect(user.comparePassword(password+'test')).to.equal(true)
-              done()
-            })
-          })
+        expect(res2.status).to.eq(200)
+        expect(res2.body.user).to.exist;
+        expect(res2.body.user.email).to.equal(user.email);
+        expect(res2.body.user.firstname).to.equal(user.firstname);
+        expect(res2.body.user.lastname).to.equal(user.lastname);
+        expect(res2.body.user._id).to.equal(String(user._id));
+        const updatedUser = await User.findOne({_id: user._id}, "+password")
+        expect(updatedUser.comparePassword(password+'test')).to.equal(true)
       })
-
     });
 
     it('uploads an avatar to user', (done) => {
