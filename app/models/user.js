@@ -112,13 +112,17 @@ class User extends mongoose.Schema {
       }
     }
 
-    this.statics.activateAccount = function(token, callback) {
+    this.statics.activateAccount = function(token) {
       // Activate account and change token
-      let new_token = shortid.generate();
-      this.findOneAndUpdate({ activation_token: token, active: false }, { active: true, activation_token: new_token }, { select: "active", new: true }, (err, user) => {
-        callback(err, user);
-      });
-    };
+      let new_token = shortid.generate()
+      return this.findOneAndUpdate({
+        activation_token: token,
+        active: false
+      }, {
+        active: true,
+        activation_token: new_token
+      }, { select: "active", new: true })
+    }
 
   }
 }
