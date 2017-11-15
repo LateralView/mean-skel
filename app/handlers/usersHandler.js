@@ -82,10 +82,12 @@ class UsersHandler {
     let token = jwt.sign({
       _id: user._id,
       email: user.email
-    }, process.env.SECRET, { expiresIn: 86400 }); // 86400 seconds = 1 day
+    }, process.env.SECRET, {
+      expiresIn: 86400
+    }); // 86400 seconds = 1 day
 
     res.json({
-      token:  token,
+      token: token,
       user: user.asJson()
     })
   }
@@ -208,7 +210,7 @@ class UsersHandler {
    */
   async updateCurrentUser(req, res) {
     let user = req.current_user;
-    if(req.files.picture) {
+    if (req.files.picture) {
       user.picture = {
         url: null,
         path: null,
@@ -225,11 +227,11 @@ class UsersHandler {
       user.password = req.body.new_password;
     }
 
-    if (req.body.firstname ){
+    if (req.body.firstname) {
       user.firstname = req.body.firstname
     }
 
-    if (req.body.lastname ){
+    if (req.body.lastname) {
       user.lastname = req.body.lastname
     }
 
