@@ -58,7 +58,6 @@ class UsersHandler {
    *      errors: []
    *    }
    */
-
   async authenticate(req, res) {
     let user
     try {
